@@ -51,6 +51,7 @@ cd C:\"Program Files"\
 git clone https://github.com/batch2os/batch2os-full-data.git
 rename batch2os-full-data batch2os
 takeown /f batch2os /r /d y
+icacls "C:\Program Files\batch2os" /grant %USERNAME%:(OI)(CI)F /T
 cd batch2os
 rmdir .git /s /q
 del readme.md
@@ -65,13 +66,17 @@ set SCRIPT="%temp%\batch2os\%RANDOM%-%RANDOM%-%RANDOM%.vbs"
 echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
 echo sLinkFile = "%USERPROFILE%\Desktop\batch2os.lnk" >> %SCRIPT%
 echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %SCRIPT%
-echo oLink.TargetPath = "C:\batch2os-short\bootloader.bat" >> %SCRIPT%
-echo oLink.IconLocation = "C:\batch2os-short\icon.ico" >> %SCRIPT%
+echo oLink.TargetPath = "C:\Program Files\batch2os\bootloader.bat" >> %SCRIPT%
+echo oLink.IconLocation = "C:\Program Files\batch2os\icon.ico" >> %SCRIPT%
 echo oLink.Save >> %SCRIPT%
 
 cscript /nologo %SCRIPT%
 del %SCRIPT%
 
+cd C:\Program Files\batch2os
+mkdir config
+cd config
+mkdir users
 cls
 echo __Setup Wizard_______________________________
 echo ! batch2os has been successfully installed. !
